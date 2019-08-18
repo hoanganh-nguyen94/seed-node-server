@@ -8,7 +8,6 @@
     "build-babel": "babel . -d build --ignore node_modules,build",
     "build": "npm run clean && npm run build-babel",
     "start": "babel-node ./build/server.js",
-    "postinstall": "npm run build",
     "dev": "nodemon --inspect --exec babel-node server.js"
   },
   "keywords": [],
