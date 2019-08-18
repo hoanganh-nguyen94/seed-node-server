@@ -1,7 +1,7 @@
 const config = {
 
     CORS_WHITELIST: ['*'],
-    API_PORT: 3000,
+    API_PORT: process.env.PORT || 3000,
     GRAPHQL_ENDPOINT: '/graphql',
     GRAPHQL_MODEL_ENDPOINT: '/model',
     MONGO_USERNAME: 'study-inspired',
