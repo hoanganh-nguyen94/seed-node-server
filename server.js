@@ -1,43 +1,10 @@
 import config from './config';
-import {ApolloServer, gql} from 'apollo-server';
+import {ApolloServer} from 'apollo-server';
 import mongoose from 'mongoose';
-import {taskCtr} from "./mongodb/controllers/task";
-
-const taskSchema = require('./graphql/taskSchema');
-
-const books = [
-    {
-        description: 'Harry Potter and the Chamber of Secrets',
-        status: 'J.K. Rowling',
-    },
-    {
-        description: 'Jurassic Park',
-        status: 'Michael Crichton',
-    },
-];
-
-
-const typeDefs = gql`
-  type Task {
-    description: String
-    status: String
-  }
-
-  type Query {
-    tasks: [Task]
-  }
-`;
-
-
-const resolvers = {
-    Query: {
-        tasks: async () => taskCtr.getTasks(),
-    },
-};
-
+import TaskSchema from "./graphql/taskSchema";
 
 const server = new ApolloServer({
-    schema: taskSchema,
+    schema: TaskSchema,
     rootValue: global,
     graphiql: true,
 });

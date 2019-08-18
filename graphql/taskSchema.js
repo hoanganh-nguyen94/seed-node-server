@@ -1,7 +1,7 @@
 import {GraphQLBoolean, GraphQLList, GraphQLNonNull, GraphQLObjectType, GraphQLSchema, GraphQLString} from "graphql";
 import {taskCtr} from "../mongodb/controllers/task";
 
-let taskType = new GraphQLObjectType({
+const taskType = new GraphQLObjectType({
     name: 'task',
     fields: () => {
         return {
@@ -12,7 +12,7 @@ let taskType = new GraphQLObjectType({
     }
 });
 
-let taskResponseType = new GraphQLObjectType({
+const taskResponseType = new GraphQLObjectType({
     name: 'taskResponse',
     fields: () => {
         return {
@@ -22,7 +22,7 @@ let taskResponseType = new GraphQLObjectType({
     }
 });
 
-let query = new GraphQLObjectType({
+const query = new GraphQLObjectType({
     name: 'Query',
     fields: () => {
         return {
@@ -89,5 +89,6 @@ let mutation = new GraphQLObjectType({
         }
     }
 });
+const TaskSchema = new GraphQLSchema({query: query, mutation: mutation});
+module.exports = TaskSchema;
 
-module.exports = new GraphQLSchema({query: query, mutation: mutation});
