@@ -4,7 +4,11 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "start": "babel-node server",
+    "clean": "rm -rf build && mkdir build",
+    "build-babel": "babel . -d build --ignore node_modules,build",
+    "build": "npm run clean && npm run build-babel",
+    "start": "npm run build && babel-node ./build/server.js",
+    "postinstall": "npm run build",
     "dev": "nodemon --inspect --exec babel-node server.js"
   },
   "keywords": [],
