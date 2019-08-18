@@ -5,11 +5,12 @@
   "main": "src/server.js",
   "scripts": {
     "clean": "rm -rf build && mkdir build",
-    "build-babel": "babel ./src --out-dir ./build --ignore node_modules,build",
+    "build-babel": "babel src -d build --ignore node_modules,build",
     "build": "npm run clean && npm run build-babel",
-    "start": "babel-node ./build/server.js",
+    "start": "node ./build/server.js",
     "dev": "babel-node ./src/server.js",
-    "dev-watch": "nodemon --exec babel-node src/server.js"
+    "dev-watch": "npm run build nodemon build/server.js",
+    "server": "npm run build && npm run start"
   },
   "keywords": [],
   "author": "Nguyen Hoang",
