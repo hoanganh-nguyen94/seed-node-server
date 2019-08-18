@@ -1,5 +1,5 @@
 
-# ![Node/Express/Mongoose Task App](node-icon.png)
+# ![Node/Express/Mongoose Task App](node_icon.png)
 
 [![Build Status](https://circleci.com/gh/apollographql/apollo-server.svg?style=svg)](https://todo-service-api.herokuapp.com/graphql)
 
