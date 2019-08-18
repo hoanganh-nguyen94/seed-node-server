@@ -1,4 +1,4 @@
-import {GraphQLList, GraphQLNonNull, GraphQLObjectType, GraphQLSchema, GraphQLString} from "graphql";
+import {GraphQLBoolean, GraphQLList, GraphQLNonNull, GraphQLObjectType, GraphQLSchema, GraphQLString} from "graphql";
 import {taskCtr} from "../mongodb/controllers/task";
 
 let taskType = new GraphQLObjectType({
@@ -12,21 +12,17 @@ let taskType = new GraphQLObjectType({
     }
 });
 
-// let taskResponseType = new GraphQLObjectType({
-//     name: 'taskResponse',
-//     fields: () => {
-//         return {
-//             success: {type: GraphQLBoolean},
-//             result: {
-//                 _id: {type: GraphQLString},
-//                 description: {type: GraphQLString},
-//                 status: {type: GraphQLString},
-//             }
-//         }
-//     }
-// });
+let taskResponseType = new GraphQLObjectType({
+    name: 'taskResponse',
+    fields: () => {
+        return {
+            success: {type: GraphQLBoolean},
+            result: {type: taskType}
+        }
+    }
+});
 
-let queryType = new GraphQLObjectType({
+let query = new GraphQLObjectType({
     name: 'Query',
     fields: () => {
         return {
@@ -49,7 +45,7 @@ let mutation = new GraphQLObjectType({
     fields: () => {
         return {
             addTask: {
-                type: taskType,
+                type: taskResponseType,
                 args: {
                     description: {type: new GraphQLNonNull(GraphQLString)},
                 },
@@ -59,11 +55,11 @@ let mutation = new GraphQLObjectType({
                     if (!task.success) {
                         throw new Error('Error');
                     }
-                    return task.result;
+                    return task;
                 }
             },
             updateTask: {
-                type: taskType,
+                type: taskResponseType,
                 args: {
                     id: {type: new GraphQLNonNull(GraphQLString)},
                 },
@@ -73,11 +69,11 @@ let mutation = new GraphQLObjectType({
                     if (!task.success) {
                         throw new Error('Error');
                     }
-                    return task.result;
+                    return task;
                 }
             },
             deleteTask: {
-                type: taskType,
+                type: taskResponseType,
                 args: {
                     id: {type: new GraphQLNonNull(GraphQLString)},
                 },
@@ -87,12 +83,11 @@ let mutation = new GraphQLObjectType({
                     if (!task.success) {
                         throw new Error('Error');
                     }
-                    return task.result;
+                    return task;
                 }
             },
-
         }
     }
 });
 
-module.exports = new GraphQLSchema({query: queryType, mutation: mutation});
+module.exports = new GraphQLSchema({query: query, mutation: mutation});
