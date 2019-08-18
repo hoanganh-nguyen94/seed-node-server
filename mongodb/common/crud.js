@@ -32,10 +32,7 @@ const crudCtr = {
 
         return {
             ...(!createdRecord
-                ? {
-                    success: false,
-                    message: `Create ${crudCtr.getModelName(model)} failed!`
-                }
+                ? {success: false, message: `Create ${crudCtr.getModelName(model)} failed!`}
                 : {success: true, result: createdRecord})
         };
     },

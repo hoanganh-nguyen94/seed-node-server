@@ -5,12 +5,11 @@ const taskModule = require('../models/task');
 
 const taskCtr = {
     getTasks: async () => {
-        return crudCtr.findAll(taskModule);
+        return await crudCtr.findAll(taskModule);
     },
     createTask: async ({description}) => {
         const task = {description, status: 'IN_PROGRESS'};
-        console.log(task);
-        return crudCtr.create(taskModule, task);
+        return await crudCtr.create(taskModule, task);
     },
     // updateTask: async ({id, ...updateData}) => {
     //     return crudCtr.update(task, {id}, updateData, {
