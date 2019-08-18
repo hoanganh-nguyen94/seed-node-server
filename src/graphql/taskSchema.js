@@ -2,7 +2,7 @@ import {GraphQLBoolean, GraphQLList, GraphQLNonNull, GraphQLObjectType, GraphQLS
 import {taskCtr} from "../mongodb/controllers/task";
 
 const taskType = new GraphQLObjectType({
-    name: 'task',
+    name: 'Task',
     fields: () => {
         return {
             _id: {type: GraphQLString},
@@ -13,7 +13,7 @@ const taskType = new GraphQLObjectType({
 });
 
 const taskResponseType = new GraphQLObjectType({
-    name: 'taskResponse',
+    name: 'TaskResponse',
     fields: () => {
         return {
             success: {type: GraphQLBoolean},
@@ -44,7 +44,7 @@ let mutation = new GraphQLObjectType({
     name: 'Mutation',
     fields: () => {
         return {
-            addTask: {
+            createTask: {
                 type: taskResponseType,
                 args: {
                     description: {type: new GraphQLNonNull(GraphQLString)},
