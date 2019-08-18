@@ -37,11 +37,21 @@ const crudCtr = {
         };
     },
     update: async (model, conditions = {}, update = {}, options = {}) => {
+        console.log('model');
+        console.log(model);
+        console.log('conditions');
+        console.log(conditions);
+
+        console.log('update');
+        console.log(update);
+
         const updatedRecord = await model.findOneAndUpdate(
             conditions,
             update,
             options
         );
+
+        console.log(updatedRecord);
 
         return {
             ...(!updatedRecord
@@ -54,7 +64,6 @@ const crudCtr = {
     },
     delete: async (model, conditions = {}, options = {}) => {
         const deletedRecord = await model.findOneAndDelete(conditions, options);
-
         return {
             ...(!deletedRecord
                 ? {

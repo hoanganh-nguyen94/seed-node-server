@@ -62,6 +62,34 @@ let mutation = new GraphQLObjectType({
                     return task.result;
                 }
             },
+            updateTask: {
+                type: taskType,
+                args: {
+                    id: {type: new GraphQLNonNull(GraphQLString)},
+                },
+                resolve: async (root, params) => {
+                    const taskModel = {...params, status: 'DONE'};
+                    const task = await taskCtr.updateTask(taskModel);
+                    if (!task.success) {
+                        throw new Error('Error');
+                    }
+                    return task.result;
+                }
+            },
+            deleteTask: {
+                type: taskType,
+                args: {
+                    id: {type: new GraphQLNonNull(GraphQLString)},
+                },
+                resolve: async (root, params) => {
+                    const taskModel = {...params};
+                    const task = await taskCtr.deleteTask(taskModel);
+                    if (!task.success) {
+                        throw new Error('Error');
+                    }
+                    return task.result;
+                }
+            },
 
         }
     }
