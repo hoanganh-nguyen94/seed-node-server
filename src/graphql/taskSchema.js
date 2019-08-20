@@ -1,4 +1,12 @@
-import {GraphQLBoolean, GraphQLList, GraphQLNonNull, GraphQLObjectType, GraphQLSchema, GraphQLString} from "graphql";
+import {
+    GraphQLBoolean,
+    GraphQLInputObjectType,
+    GraphQLList,
+    GraphQLNonNull,
+    GraphQLObjectType,
+    GraphQLSchema,
+    GraphQLString
+} from "graphql";
 import {taskCtr} from "../mongodb/controllers/task";
 
 const taskType = new GraphQLObjectType({
@@ -8,6 +16,17 @@ const taskType = new GraphQLObjectType({
             _id: {type: GraphQLString},
             description: {type: GraphQLString},
             status: {type: GraphQLString},
+            createdAt: {type: GraphQLString}
+        }
+    }
+});
+
+const sortType = new GraphQLInputObjectType({
+    name: 'Sort',
+    fields: () => {
+        return {
+            active: {type: GraphQLString},
+            direction: {type: GraphQLString}
         }
     }
 });
@@ -28,8 +47,12 @@ const query = new GraphQLObjectType({
         return {
             tasks: {
                 type: new GraphQLList(taskType),
-                resolve: async () => {
-                    const tasks = await taskCtr.getTasks();
+                args: {
+                    status: {type: GraphQLString},
+                    sort: {type: sortType}
+                },
+                resolve: async (root, {status, sort}) => {
+                    const tasks = await taskCtr.getTasks(status, sort);
                     if (!tasks.success) {
                         throw new Error('Error');
                     }
@@ -40,7 +63,7 @@ const query = new GraphQLObjectType({
     }
 });
 
-let mutation = new GraphQLObjectType({
+const mutation = new GraphQLObjectType({
     name: 'Mutation',
     fields: () => {
         return {
@@ -86,9 +109,21 @@ let mutation = new GraphQLObjectType({
                     return task;
                 }
             },
+            clearTaskCompleted: {
+                type: taskResponseType,
+                args: {},
+                resolve: async (root, params) => {
+                    const task = await taskCtr.clearTaskCompleted();
+                    if (!task.success) {
+                        throw new Error('Error');
+                    }
+                    return task;
+                }
+            },
         }
     }
 });
+
 const TaskSchema = new GraphQLSchema({query: query, mutation: mutation});
 module.exports = TaskSchema;
 

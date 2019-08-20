@@ -62,6 +62,17 @@ const crudCtr = {
                 : {success: true, result: deletedRecord})
         };
     },
+    deleteAll: async (model, conditions = {}, options = {}) => {
+        const deletedRecord = await model.deleteMany(conditions, options);
+        return {
+            ...(!deletedRecord
+                ? {
+                    success: false,
+                    message: `Delete ${crudCtr.getModelName(model)} failed!`
+                }
+                : {success: true, result: deletedRecord})
+        };
+    },
     getModelName: model => {
         return model.collection.collectionName;
     }
