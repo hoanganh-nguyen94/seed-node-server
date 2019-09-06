@@ -1,9 +1,6 @@
 
-# ![Node/Express/Mongoose Task App](node_icon.png)
 
-[![Build Status](https://circleci.com/gh/apollographql/apollo-server.svg?style=svg)](https://todo-service-api.herokuapp.com/graphql)
-
-> ### Node - Graphql - Mongoose
+> ### Node - Graphql - Mongoose <img src="https://img.shields.io/badge/Pass-%23783578.svg"/>
 
 
 ## Getting started
