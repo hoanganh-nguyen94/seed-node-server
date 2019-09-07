@@ -8,6 +8,7 @@ import {
     GraphQLString
 } from "graphql";
 import {taskCtr} from "../mongodb/controllers/task";
+import {sortType} from "./input-types/sortType";
 
 const taskType = new GraphQLObjectType({
     name: 'Task',
@@ -21,15 +22,6 @@ const taskType = new GraphQLObjectType({
     }
 });
 
-const sortType = new GraphQLInputObjectType({
-    name: 'Sort',
-    fields: () => {
-        return {
-            active: {type: GraphQLString},
-            direction: {type: GraphQLString}
-        }
-    }
-});
 
 const taskResponseType = new GraphQLObjectType({
     name: 'TaskResponse',
@@ -42,7 +34,7 @@ const taskResponseType = new GraphQLObjectType({
 });
 
 const TaskSchema = {
-    queries :{
+    queries: {
         tasks: {
             type: new GraphQLList(taskType),
             args: {
@@ -58,7 +50,7 @@ const TaskSchema = {
             }
         }
     },
-    mutations:{
+    mutations: {
         createTask: {
             type: taskResponseType,
             args: {
