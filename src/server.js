@@ -4,12 +4,12 @@ import http from 'http';
 import config from './config';
 import graphqlHTTP from 'express-graphql';
 import cors from 'cors';
-import TaskSchema from "./graphql/taskSchema";
+import GraphqlSchema from "./graphql/graphqlSchema";
 
 const app = express();
 app.use('*', cors());
 app.use('/graphql', cors(), graphqlHTTP({
-    schema: TaskSchema,
+    schema: GraphqlSchema,
     rootValue: global,
     graphiql: true,
 }));

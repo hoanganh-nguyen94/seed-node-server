@@ -41,89 +41,79 @@ const taskResponseType = new GraphQLObjectType({
     }
 });
 
-const query = new GraphQLObjectType({
-    name: 'Query',
-    fields: () => {
-        return {
-            tasks: {
-                type: new GraphQLList(taskType),
-                args: {
-                    status: {type: GraphQLString},
-                    sort: {type: sortType}
-                },
-                resolve: async (root, {status, sort}) => {
-                    const tasks = await taskCtr.getTasks(status, sort);
-                    if (!tasks.success) {
-                        throw new Error('Error');
-                    }
-                    return tasks.result;
+const TaskSchema = {
+    queries :{
+        tasks: {
+            type: new GraphQLList(taskType),
+            args: {
+                status: {type: GraphQLString},
+                sort: {type: sortType}
+            },
+            resolve: async (root, {status, sort}) => {
+                const tasks = await taskCtr.getTasks(status, sort);
+                if (!tasks.success) {
+                    throw new Error('Error');
                 }
+                return tasks.result;
             }
         }
+    },
+    mutations:{
+        createTask: {
+            type: taskResponseType,
+            args: {
+                description: {type: new GraphQLNonNull(GraphQLString)},
+            },
+            resolve: async (root, params) => {
+                const taskModel = {...params};
+                const task = await taskCtr.createTask(taskModel);
+                if (!task.success) {
+                    throw new Error('Error');
+                }
+                return task;
+            }
+        },
+        updateTask: {
+            type: taskResponseType,
+            args: {
+                id: {type: new GraphQLNonNull(GraphQLString)},
+            },
+            resolve: async (root, params) => {
+                const taskModel = {...params, status: 'DONE'};
+                const task = await taskCtr.updateTask(taskModel);
+                if (!task.success) {
+                    throw new Error('Error');
+                }
+                return task;
+            }
+        },
+        deleteTask: {
+            type: taskResponseType,
+            args: {
+                id: {type: new GraphQLNonNull(GraphQLString)},
+            },
+            resolve: async (root, params) => {
+                const taskModel = {...params};
+                const task = await taskCtr.deleteTask(taskModel);
+                if (!task.success) {
+                    throw new Error('Error');
+                }
+                return task;
+            }
+        },
+        clearTaskCompleted: {
+            type: taskResponseType,
+            args: {},
+            resolve: async (root, params) => {
+                const task = await taskCtr.clearTaskCompleted();
+                if (!task.success) {
+                    throw new Error('Error');
+                }
+                return task;
+            }
+        },
     }
-});
+};
 
-const mutation = new GraphQLObjectType({
-    name: 'Mutation',
-    fields: () => {
-        return {
-            createTask: {
-                type: taskResponseType,
-                args: {
-                    description: {type: new GraphQLNonNull(GraphQLString)},
-                },
-                resolve: async (root, params) => {
-                    const taskModel = {...params};
-                    const task = await taskCtr.createTask(taskModel);
-                    if (!task.success) {
-                        throw new Error('Error');
-                    }
-                    return task;
-                }
-            },
-            updateTask: {
-                type: taskResponseType,
-                args: {
-                    id: {type: new GraphQLNonNull(GraphQLString)},
-                },
-                resolve: async (root, params) => {
-                    const taskModel = {...params, status: 'DONE'};
-                    const task = await taskCtr.updateTask(taskModel);
-                    if (!task.success) {
-                        throw new Error('Error');
-                    }
-                    return task;
-                }
-            },
-            deleteTask: {
-                type: taskResponseType,
-                args: {
-                    id: {type: new GraphQLNonNull(GraphQLString)},
-                },
-                resolve: async (root, params) => {
-                    const taskModel = {...params};
-                    const task = await taskCtr.deleteTask(taskModel);
-                    if (!task.success) {
-                        throw new Error('Error');
-                    }
-                    return task;
-                }
-            },
-            clearTaskCompleted: {
-                type: taskResponseType,
-                args: {},
-                resolve: async (root, params) => {
-                    const task = await taskCtr.clearTaskCompleted();
-                    if (!task.success) {
-                        throw new Error('Error');
-                    }
-                    return task;
-                }
-            },
-        }
-    }
-});
-
-const TaskSchema = new GraphQLSchema({query: query, mutation: mutation});
-module.exports = TaskSchema;
+export default TaskSchema;
 
