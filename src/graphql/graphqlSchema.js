@@ -1,12 +1,12 @@
 import {GraphQLObjectType, GraphQLSchema} from "graphql";
 import TaskSchema from "./taskSchema";
-import IssueSchema from "./issueSchema";
+import CourseSchema from "./courseSchema";
 
 
 const query = new GraphQLObjectType({
     name: 'Query',
     fields: () => {
-        return {...TaskSchema.queries, ...IssueSchema.queries}
+        return {...TaskSchema.queries, ...CourseSchema.queries}
     }
 });
 
