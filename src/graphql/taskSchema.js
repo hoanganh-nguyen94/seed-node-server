@@ -7,7 +7,7 @@ import {
     GraphQLSchema,
     GraphQLString
 } from "graphql";
-import {taskCtr} from "../mongodb/controllers/task";
+import {taskCtr} from "../controllers/controllers/task";
 import {sortType} from "./input-types/sortType";
 
 const taskType = new GraphQLObjectType({

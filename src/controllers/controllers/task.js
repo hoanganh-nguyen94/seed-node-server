@@ -1,6 +1,6 @@
 import crudCtr from '../common/crud';
 
-import TaskModule from '../models/task';
+import TaskModule from '../../mongodb/models/task';
 
 const taskCtr = {
     getTasks: async (status, {active, direction}) => {

@@ -1,5 +1,5 @@
 import {GraphQLInt, GraphQLList, GraphQLObjectType, GraphQLString} from "graphql";
-import {courseCtr} from "../mongodb/controllers/course";
+import {courseCtr} from "../controllers/controllers/course";
 import {sortType} from "./input-types/sortType";
 
 
@@ -24,12 +24,8 @@ const CourseSchema = {
     queries: {
         courses: {
             type: new GraphQLList(courseType),
-            args: {
-                status: {type: GraphQLString},
-                sort: {type: sortType}
-            },
-            resolve: async (root, {status, sort}) => {
-                const courses = await courseCtr.getCourses(status, sort);
+            resolve: async (root) => {
+                const courses = await courseCtr.getCourses();
                 if (!courses.success) {
                     throw new Error('Error');
                 }

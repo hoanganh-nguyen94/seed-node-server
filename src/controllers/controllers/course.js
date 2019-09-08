@@ -1,11 +1,11 @@
 import crudCtr from '../common/crud';
 
-import CourseModule from '../models/course';
+import CourseModule from '../../mongodb/models/course';
 
 const courseCtr = {
-    getCourses: async (status, {active, direction}) => {
-        let filter = !!status ? {status} : {};
-        let sort = {[`${active}`]: direction};
+    getCourses: async () => {
+        let filter = {};
+        let sort = {};
         return await crudCtr.findAll(CourseModule, filter, null, {sort});
     },
     createCourse: async ({description, longDescription, iconUrl, category, lessonsCount, seqNo, url}) => {
