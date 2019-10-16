@@ -1,12 +1,4 @@
-import {
-    GraphQLBoolean,
-    GraphQLInputObjectType,
-    GraphQLList,
-    GraphQLNonNull,
-    GraphQLObjectType,
-    GraphQLSchema,
-    GraphQLString
-} from "graphql";
+import {GraphQLBoolean, GraphQLList, GraphQLNonNull, GraphQLObjectType, GraphQLString} from "graphql";
 import {taskCtr} from "../controllers/controllers/task";
 import {sortType} from "./input-types/sortType";
 

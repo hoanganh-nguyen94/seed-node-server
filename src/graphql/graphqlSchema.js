@@ -1,6 +1,7 @@
 import {GraphQLObjectType, GraphQLSchema} from "graphql";
 import TaskSchema from "./taskSchema";
 import CourseSchema from "./courseSchema";
+import ApiSchema from "./apiBoilerplateSchema";
 
 
 const query = new GraphQLObjectType({
@@ -14,7 +15,7 @@ const mutation = new GraphQLObjectType({
     name: 'Mutation',
     fields: () => {
         return {
-            ...TaskSchema.mutations
+            ...TaskSchema.mutations, ...ApiSchema.mutations
         }
     }
 });
